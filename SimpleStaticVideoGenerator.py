@@ -68,7 +68,8 @@ class VideoWorker(QThread):
                 new_img = Image.new("RGB", (w, h), (0, 0, 0))
                 offset = ((w - img.size[0]) // 2, (h - img.size[1]) // 2)
                 new_img.paste(img, offset)
-                resized_img_path = "temp_resized_image.png"
+                resized_img_filename = "temp_resized_image.png"
+                resized_img_path = os.path.join(self.out_dir,resized_img_filename)
                 new_img.save(resized_img_path)
 
             s_len = 60
@@ -81,7 +82,8 @@ class VideoWorker(QThread):
             final_bitrate = f"{br_match.group(1)}k"
 
             self.progress.emit(f"Encoding seed segment...")
-            seed_clip = "temp_seed.mp4"
+            seed_clip_filename = "temp_seed.mp4"
+            seed_clip = os.path.join(self.out_dir,seed_clip_filename)
             subprocess.run(['ffmpeg', '-y', '-loop', '1', '-i', resized_img_path, 
                     '-c:v', 'libx264', '-t', str(s_len), '-pix_fmt', 'yuv420p', 
                     '-vf', f'scale={w}:{h}', '-preset', 'veryfast', seed_clip], 
@@ -89,7 +91,8 @@ class VideoWorker(QThread):
 
             self.progress.emit(f"Muxing final video ({final_bitrate})...")
             num_loops = math.ceil(audio_duration / s_len)
-            concat_file = "temp_list.txt"
+            concat_filename = "temp_list.txt"
+            concat_file = os.path.join(self.out_dir,concat_filename)
             with open(concat_file, "w") as f:
                 for _ in range(num_loops):
                     f.write(f"file '{os.path.abspath(seed_clip)}'\n")

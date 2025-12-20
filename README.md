@@ -14,6 +14,22 @@ quickly upload an audio file to Youtube. Creating a whole video in a video edito
 takes time, even for a static image, and rendering also takes time,
 much longer than is necessary using this method.
 
+## Temporary Files
+Since naturally it is necessary to be able to write to the target directory,
+we create temporary files there, and then clean them up afterwards.
+
+## Dependencies
+The script requires a Python 3 installation (3.10 is sufficient) with PySide6
+and Pillow installed.
+
+## Windows
+If the system Python has PySide6 and Pillow installed, then 
+`SimpleStaticVideoGenerator.py`
+can be run from the explorer.
+
+Quite possibly this could be packaged as a self-contained `.exe`
+but that hasn't be done here (yet).
+
 ## Icons
 The icons are just the result of asking Gemini for one once the working
 program was finished.
