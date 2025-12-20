@@ -117,10 +117,10 @@ class MainWindow(QMainWindow):
         self.filename_input = QLineEdit()
         
         self.res_dropdown = QComboBox(); self.res_dropdown.setEditable(True)
-        self.res_dropdown.addItems(["1920x1080", "3840x2160", "1280x720", "From Image"])
+        self.res_dropdown.addItems(["1920x1080", "3840x2160", "1280x720", "854x480", "640x640", "480x480", "From Image"])
         
         self.seed_dropdown = QComboBox(); self.seed_dropdown.setEditable(True)
-        self.seed_dropdown.addItems(["60s", "10s", "240s", "Guess"])
+        self.seed_dropdown.addItems(["60s", "10s", "30s", "240s", "Guess"])
 
         self.bitrate_dropdown = QComboBox(); self.bitrate_dropdown.setEditable(True)
         self.bitrate_dropdown.addItems(["128k", "192k", "256k", "320k"])
