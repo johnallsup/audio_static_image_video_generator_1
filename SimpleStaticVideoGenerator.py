@@ -12,6 +12,41 @@ from PySide6.QtCore import QThread, Signal, Qt, QRect
 from PySide6.QtGui import QPixmap, QPainter, QColor, QFont, QPen
 from PIL import Image
 
+import os
+import subprocess
+import shutil
+
+def ensure_ffmpeg():
+    """
+    Checks for ffmpeg/ffprobe, updates PATH if missing, 
+    and returns True if found, False otherwise.
+    """
+    dependencies = ["ffmpeg", "ffprobe"]
+    
+    # 1. First Check: Is it already in the path?
+    if all(shutil.which(cmd) for cmd in dependencies):
+        return True
+
+    # 2. Update PATH: Add common macOS/Linux locations
+    extra_paths = [
+        "/usr/local/bin",
+        "/opt/local/bin",
+        os.path.expanduser("~/bin")
+    ]
+    
+    current_paths = os.environ.get("PATH", "").split(os.pathsep)
+    for p in extra_paths:
+        if os.path.isdir(p) and p not in current_paths:
+            current_paths.insert(0, p)
+    
+    os.environ["PATH"] = os.pathsep.join(current_paths)
+
+    # 3. Second Check: Can we find them now?
+    if all(shutil.which(cmd) for cmd in dependencies):
+        return True
+
+    return False
+
 class VideoWorker(QThread):
     progress = Signal(str)
     finished = Signal(bool, str)
@@ -325,8 +360,26 @@ class MainWindow(QMainWindow):
             else:
                 subprocess.run(['xdg-open', os.path.dirname(p)])
 
-if __name__ == "__main__":
+def main():
     app = QApplication(sys.argv)
+
+    if not ensure_ffmpeg():
+        # Show Error Box if still not found
+        msg = QMessageBox()
+        msg.setIcon(QMessageBox.Critical)
+        msg.setWindowTitle("Missing Dependencies")
+        msg.setText("Could not find ffmpeg or ffprobe.")
+        msg.setInformativeText(
+            "Please ensure they are installed in /usr/local/bin, "
+            "/opt/local/bin, or ~/bin."
+        )
+        msg.setStandardButtons(QMessageBox.Ok)
+        msg.exec()
+        sys.exit(1)
+
     w = MainWindow()
     w.show()
     sys.exit(app.exec())
+
+if __name__ == "__main__":
+    main()

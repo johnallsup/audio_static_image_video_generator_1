@@ -1,4 +1,4 @@
-# Audio Static Image Vidoe Generator 1
+# Audio Static Image Video Generator 1
 Efficiently convert audio and static image into a video by concatenating a seed loop.
 
 These are two simple wrapper scripts using ffmpeg and Pillow to do the heavy lifting.
@@ -14,6 +14,8 @@ quickly upload an audio file to Youtube. Creating a whole video in a video edito
 takes time, even for a static image, and rendering also takes time,
 much longer than is necessary using this method.
 
+This is very much a quick hack to scratch an itch, and not a professionally polished application. In part it was an exercise in taking something I had a `bash` script for, and ask Gemini to write a better version in Python with an optional GUI.
+
 ## Temporary Files
 Since naturally it is necessary to be able to write to the target directory,
 we create temporary files there, and then clean them up afterwards.
@@ -21,6 +23,41 @@ we create temporary files there, and then clean them up afterwards.
 ## Dependencies
 The script requires a Python 3 installation (3.10 is sufficient) with PySide6
 and Pillow installed.
+
+There needs to be `ffmpeg` and `ffprobe` installed, and in the `PATH`.
+If necessary, the hack from the Macos section can be employed:
+edit the Python script to tell it where `ffmpeg` and `ffprobe` are.
+
+## Macos
+In the `macos` directory is a simple `setup.py` and `build.sh`.
+Provided the necessaries are installed (`py2app` for example),
+then running 
+```
+. ./build.sh
+``` 
+will generate a `.app` in the `dist` folder.
+
+There is a quick and dirty hack for finding `ffmpeg` and
+`ffprobe`. It uses `shutil.which` and if this fails, adds
+some directories like `/usr/local/bin`, `/opt/local/bin`,
+and `$HOME/bin` to the `PATH` and tries again. If necessary
+you'll need to edit the Python script to add paths as necessary
+(that is, if you know where `ffmpeg` and `ffprobe` are,
+include those paths in the list).
+
+Look for the bit here (around line 30)
+```
+    # 2. Update PATH: Add common macOS/Linux locations
+    extra_paths = [
+        "/usr/local/bin",
+        "/opt/local/bin",
+        os.path.expanduser("~/bin")
+    ]
+```
+and add whatever path is needed.
+
+Then the `.app` can be dragged into your `/Applications` and
+it works.
 
 ## Windows
 If the system Python has PySide6 and Pillow installed, then 
