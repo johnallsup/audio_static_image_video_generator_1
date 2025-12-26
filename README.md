@@ -28,6 +28,8 @@ There needs to be `ffmpeg` and `ffprobe` installed, and in the `PATH`.
 If necessary, the hack from the Macos section can be employed:
 edit the Python script to tell it where `ffmpeg` and `ffprobe` are.
 
+The Tk generator requires `tkinterdnd2`.
+
 ## Macos
 In the `qt_macos` directory is a simple `setup.py` and `build.sh`.
 Provided the necessaries are installed (`py2app` for example),
@@ -65,6 +67,7 @@ Tkinter based version, which is a completely separate AI-produced
 script that does roughly the same thing.
 
 The `tk_macos` directory contains a `setup.py` to build this into an `.app`.
+The Tk generator requires `tkinterdnd2`.
 
 ## Windows
 If the system Python has PySide6 and Pillow installed, then 

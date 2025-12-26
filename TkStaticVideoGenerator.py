@@ -10,6 +10,7 @@ import tkinter as tk
 from tkinter import ttk, messagebox
 from tkinterdnd2 import DND_FILES, TkinterDnD
 from PIL import Image, ImageTk
+import platform
 
 class MediaProcessor:
     def __init__(self):
@@ -179,7 +180,13 @@ class VideoMakerApp(TkinterDnD.Tk):
 
     def reveal_in_finder(self):
         if self.last_output_path and os.path.exists(self.last_output_path):
-            subprocess.run(["open", "-R", self.last_output_path])
+            p = self.last_output_path
+            if platform.system() == "Windows":
+                subprocess.run(['explorer', '/select,', os.path.normpath(p)])
+            elif platform.system() == "Darwin":
+                subprocess.run(['open', '-R', p])
+            else:
+                subprocess.run(['xdg-open', os.path.dirname(p)])
 
     def update_preview(self, path):
         try:
