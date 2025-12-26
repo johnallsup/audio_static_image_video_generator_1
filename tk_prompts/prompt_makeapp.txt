@@ -1,0 +1,2 @@
+how do I use py2app to turn this into a macos .app
+

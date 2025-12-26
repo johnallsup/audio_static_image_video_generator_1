@@ -1,0 +1,9 @@
+Python tkinter app that supports drag and drop. It has fields for an audio file, and image, an output .mp4 filename, an output directory, and a preview for the image file. When a directory is dragged to the app, it updates the output directory. When a video file is dragged to the app, it updates the output filename and output directory. If an audio file is dragged to the app, and the output filename is empty, it takes the output filename and directory from the input audio file, replacing e.g. .wav with .mp4. The app should be one Python class. It then uses a second class which wraps ffmpeg and ffprobe. To produce an output video, it first resizes the image file (preserving aspect ratio, black background, using Pillow). Then it generates a seed loop of, say, 20 seconds by looping the image in ffmpeg. It then concatenates as many times as necessary to produce a static video for the given audio file.
+
+It should have buttons to clear each input file, and a clear all button.
+
+the filename filelds should be editable
+It should have a status line which says what it is doing, and a status text area that shows the output of ffmpeg as it works.
+
+there should be a drop down to select output resolution, defaulting to 1920x1080 but also 1280x720, 854x480, 640x480, 640x640 and 480x480. There should be a checkbox which transposes the dimensions. There should be a drop down to select the seed length, with options for 10s 20s 1minute, and on that guesses a suitable size based on the length of the input audio file.
+

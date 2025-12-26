@@ -29,7 +29,7 @@ If necessary, the hack from the Macos section can be employed:
 edit the Python script to tell it where `ffmpeg` and `ffprobe` are.
 
 ## Macos
-In the `macos` directory is a simple `setup.py` and `build.sh`.
+In the `qt_macos` directory is a simple `setup.py` and `build.sh`.
 Provided the necessaries are installed (`py2app` for example),
 then running 
 ```
@@ -58,6 +58,13 @@ and add whatever path is needed.
 
 Then the `.app` can be dragged into your `/Applications` and
 it works.
+
+## Tk Version
+The Qt version doesn't work on Macos before 11.0. Thus there is a second
+Tkinter based version, which is a completely separate AI-produced
+script that does roughly the same thing.
+
+The `tk_macos` directory contains a `setup.py` to build this into an `.app`.
 
 ## Windows
 If the system Python has PySide6 and Pillow installed, then 
